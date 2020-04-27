@@ -1,21 +1,21 @@
-package com.onepointsixtwo.distributedtransactions.model;
+package com.onepointsixtwo.distributedtransactions.model.transactiontwo;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "transactionone")
-public class TransactionOneModel implements Serializable {
+@Table(name = "transactiontwo")
+public class TransactionTwoModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(columnDefinition = "id")
     private Long id;
 
     @Column(columnDefinition = "information")
     String information;
 
-    public TransactionOneModel() {}
+    public TransactionTwoModel() {}
 
     public Long getId() {
         return id;
