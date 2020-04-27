@@ -1,7 +1,7 @@
 # Distributed Transactions
 
 This is a project to demonstrate distributed transactions management in Spring Boot. 
-It uses JPA to manage database insertions into a PostGreSQL database running on the same machine and uses Spring's
+It uses JPA to manage database insertions into a PostgreSQL database running on the same machine and uses Spring's
 transaction management annotations along with a transaction manager configuration to ensure that when performing a 
 transaction against a data source either all insertions fail or succeed, but there is never a state where one succeeds
 and the other fails.
@@ -9,8 +9,8 @@ and the other fails.
 ## Setup
 
 To run this project, some setup is required. The steps are as follows (assumes running on MacOS):
-* Install PostGreSQL on the local system by using the command `brew install postgresql`
-* Start PostGreSQL instance by running `pg_ctl -D /usr/local/var/postgres start` or, if you want it to run as a service 
+* Install PostgreSQL on the local system by using the command `brew install postgresql`
+* Start PostgreSQL instance by running `pg_ctl -D /usr/local/var/postgres start` or, if you want it to run as a service 
 on the machine i.e. start up automatically when the machine starts, you could use `brew services start postgresql` instead.
 * Create a database on the machine matching the username of your current user (in my case johnkartupelis) by running the command
 `createdb johnkartupelis`.
