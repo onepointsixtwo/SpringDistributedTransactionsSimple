@@ -1,11 +1,15 @@
 package com.onepointsixtwo.distributedtransactions.web;
 
+import com.onepointsixtwo.distributedtransactions.model.Message;
 import com.onepointsixtwo.distributedtransactions.model.transactionone.TransactionOneModel;
 import com.onepointsixtwo.distributedtransactions.model.transactiontwo.TransactionTwoModel;
 import com.onepointsixtwo.distributedtransactions.repository.transactionone.TransactionOneRepository;
 import com.onepointsixtwo.distributedtransactions.repository.transactiontwo.TransactionTwoRepository;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +26,8 @@ public class TransactionRestController {
     TransactionOneRepository transactionOneRepository;
     @Autowired
     TransactionTwoRepository transactionTwoRepository;
+    @Autowired
+    private KafkaTemplate<Integer, String> template;
 
     @PostMapping(path = "/transaction", consumes = "application/json")
     @Transactional
@@ -34,5 +40,17 @@ public class TransactionRestController {
         TransactionTwoModel transactionTwo = new TransactionTwoModel();
         transactionTwo.setInformation(transaction.getInformation());
         transactionTwoRepository.insert(transactionTwo);
+    }
+
+    @PostMapping(path="/message", consumes = "application/json")
+    public void addKafkaMessage(@RequestBody Message message) {
+        template.send("demo_topic", message.getText());
+    }
+
+    @KafkaListener(topics = "demo_topic")
+    public void receiveMessageFromDemoTopic(ConsumerRecord<Integer, String> record) {
+        String value = record.value();
+        System.out.println("NEW MESSAGE RECEIVED:");
+        System.out.println(value);
     }
 }
